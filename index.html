@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard WebGIS Pesebaran Rumah Ibadah Kaltim</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="transition-colors duration-500 bg-gray-100 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
+
+  <!-- Navbar -->
+  <nav class="navbar backdrop-blur-md bg-white/30 dark:bg-gray-800/40 sticky top-0 z-50 shadow">
+    <div class="flex justify-between items-center px-6 py-3">
+      <div class="text-xl font-bold tracking-wide">🗺️ Dashboard Pesebaran Rumah Ibadah Kota Bogor</div>
+      <div class="flex items-center space-x-4">
+        <ul class="hidden md:flex space-x-4">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="https://hisyam-14.github.io/Webgis-Pesebaran-Rumah-Ibadah-Kota-Bogor/#13/-6.6043/106.7952" class="nav-link">Fullscreen Map</a></li>
+        </ul>
+        <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-all hover:scale-110">
+          🌙
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Ringkasan Statistik -->
+  <section class="container mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+    <div class="stat-card">
+      <h3 class="text-sm uppercase text-gray-500 dark:text-gray-400"><b>Total Kecamatan</b></h3>
+      <p class="text-3xl font-bold mt-2">6</p>
+    </div>
+    <div class="stat-card">
+      <h3 class="text-sm uppercase text-gray-500 dark:text-gray-400"><b>Total Rumah Ibadah</b></h3>
+      <p class="text-3xl font-bold mt-2">100</p>
+    </div>
+    <div class="stat-card">
+      <h3 class="text-sm uppercase text-gray-500 dark:text-gray-400"><b>Rumah Ibadah Terbanyak di</b></h3>
+      <p class="text-3xl font-bold mt-2 text-red-500 dark:text-red-400">Bogor Barat & Bogor Selatan</p>
+    </div>
+  </section>
+
+  <!-- Peta & Diagram -->
+  <section class="container mx-auto mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+    <!-- Peta -->
+    <div class="card">
+      <h2 class="card-title">🗺️ Peta Interaktif</h2>
+      <iframe src="https://hisyam-14.github.io/Webgis-Pesebaran-Rumah-Ibadah-Kota-Bogor/#13/-6.6043/106.7952"
+        class="w-full h-80 border rounded-lg" allowfullscreen></iframe>
+    </div>
+
+    <!-- Diagram -->
+    <div class="card">
+      <h2 class="card-title">📊 Diagram Infografis</h2>
+      <canvas id="stackedBarChart" class="h-80"></canvas>
+    </div>
+  </section>
+
+  <!-- Tabel -->
+  <section class="container mx-auto mt-6 bg-white dark:bg-gray-800 p-4 shadow rounded-lg px-4">
+    <h2 class="card-title mb-4 tabel-title">📋 Data Tabel Pesebaran Rumah Ibadah</h2>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border-collapse">
+        <thead class="bg-gray-200 dark:bg-gray-700">
+          <tr>
+            <th class="th">Kecamatan</th>
+            <th class="th">Tanah Sereal</th>
+            <th class="th">Bogor Barat</th>
+            <th class="th">Bogor Utara</th>
+            <th class="th">Bogor Tengah</th>
+            <th class="th">Bogor Selatan</th>
+            <th class="th">Bogor timur</th>
+            <th class="th">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+            <td class="td">Jumlah Rumah Ibadah</td>
+            <td class="td">7</td>
+            <td class="td">25</td>
+            <td class="td">7</td>
+            <td class="td">23</td>
+            <td class="td">25</td>
+            <td class="td">13</td>
+            <td class="td font-semibold">100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+  const ctx = document.getElementById('stackedBarChart').getContext('2d');
+
+  // Label nama kecamatan
+  const labels = [
+    "Tanah Sereal",
+    "Bogor Barat",
+    "Bogor Utara",
+    "Bogor Tengah",
+    "Bogor Selatan",
+    "Bogor Timur"
+  ];
+
+  // Data jumlah tempat ibadah per kecamatan
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Masjid",
+        data: [7, 25, 7, 15, 23, 11],
+        backgroundColor: "rgba(16, 185, 129, 0.7)", // hijau
+        borderColor: "rgba(5, 150, 105, 1)",
+        borderWidth: 1,
+        borderRadius: 6
+      },
+      {
+        label: "Gereja",
+        data: [0, 0, 0, 7, 2, 2],
+        backgroundColor: "rgba(59, 130, 246, 0.7)", // biru
+        borderColor: "rgba(37, 99, 235, 1)",
+        borderWidth: 1,
+        borderRadius: 6
+      },
+      {
+        label: "Vihara",
+        data: [0, 0, 0, 1, 0, 0],
+        backgroundColor: "rgba(251, 191, 36, 0.7)", // oranye
+        borderColor: "rgba(217, 119, 6, 1)",
+        borderWidth: 1,
+        borderRadius: 6
+      }
+    ]
+  };
+
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+          labels: {
+            color: document.body.classList.contains('dark') ? "#fff" : "#111"
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(30,30,30,0.8)",
+          titleColor: "#fff",
+          bodyColor: "#fff",
+          cornerRadius: 8
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: document.body.classList.contains('dark') ? "#fff" : "#111"
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: "rgba(200,200,200,0.2)" },
+          ticks: {
+            color: document.body.classList.contains('dark') ? "#fff" : "#111"
+          }
+        }
+      },
+      animation: { duration: 1200, easing: "easeOutQuart" }
+    }
+  });
+
+  // Toggle mode (dark/light)
+  const toggleBtn = document.getElementById("theme-toggle");
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    toggleBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    chart.options.plugins.legend.labels.color = document.body.classList.contains('dark') ? "#fff" : "#111";
+    chart.options.scales.x.ticks.color = document.body.classList.contains('dark') ? "#fff" : "#111";
+    chart.options.scales.y.ticks.color = document.body.classList.contains('dark') ? "#fff" : "#111";
+    chart.update();
+  });
+</script>
+</body>
+</html>
