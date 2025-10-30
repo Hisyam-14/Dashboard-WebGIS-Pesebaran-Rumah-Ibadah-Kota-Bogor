@@ -61,15 +61,56 @@ body {
   color: #f9fafb;
 }
 
+section.bg-white {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  section.bg-white {
+    background-color: #1f2937; 
+    color: #f9fafb; 
+  }
+}
+
+.dark section.bg-white {
+  background-color: #1f2937; 
+  color: #f9fafb; 
+}
+
 .tabel-title {
-  color: #f9fafb;
+  color: #1f2937; 
+}
+
+@media (prefers-color-scheme: dark) {
+  .tabel-title {
+    color: #f9fafb;
+  }
 }
 
 .dark .tabel-title {
   color: #f9fafb;
 }
 
-/* Table */
+thead th {
+  color: #1f2937; 
+}
+
+/* Kalau default user dark mode */
+@media (prefers-color-scheme: dark) {
+  thead th {
+    color: #f9fafb; 
+  }
+}
+
+.dark[data-theme="light"] thead th {
+  color: #1f2937 !important;
+}
+
+html[data-theme="dark"]:not(.dark) thead th {
+  color: #f9fafb !important;
+}
+
 th, td {
   border: 1px solid #e5e7eb;
   padding: 10px;
